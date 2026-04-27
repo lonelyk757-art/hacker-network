@@ -10,7 +10,8 @@ const books = [
         author: 'Stuttard & Pinto',
         price: 2500,
         description: 'Master web application security testing',
-        icon: '📖'
+        icon: '📖',
+        image: 'images/book1.png'
     },
     {
         id: 2,
@@ -18,7 +19,8 @@ const books = [
         author: 'Kennedy, O\'Neill, Aharoni',
         price: 2200,
         description: 'Complete guide to penetration testing',
-        icon: '🔓'
+        icon: '🔓',
+        image: 'images/book2.jpg'
     },
     {
         id: 3,
@@ -26,7 +28,8 @@ const books = [
         author: 'Peter Kim',
         price: 2000,
         description: 'Practical guide to ethical hacking',
-        icon: '🎮'
+        icon: '🎮',
+        image: 'images/book3.png'
     },
     {
         id: 4,
@@ -211,7 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderBooks() {
     booksGrid.innerHTML = books.map(book => `
         <div class="book-card">
-            <div class="book-image">${book.icon}</div>
+            <div class="book-image">
+                ${book.image ? `<img src="${book.image}" alt="${book.title}">` : book.icon}
+            </div>
             <div class="book-info">
                 <div class="book-title">${book.title}</div>
                 <div class="book-author">by ${book.author}</div>
@@ -288,7 +293,7 @@ function renderCart() {
         <div class="cart-item">
             <div class="cart-item-info">
                 <div class="cart-item-title">${item.title}</div>
-                <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+                <div class="cart-item-price">${item.price === 0 ? 'FREE' : '₦' + item.price.toLocaleString()}</div>
             </div>
             <div class="cart-item-qty">
                 <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
@@ -379,20 +384,36 @@ function setupEventListeners() {
 
 // Process Order
 function processOrder() {
-    const formData = new FormData(checkoutForm);
+    // Get form inputs directly by ID instead of FormData
+    const fullName = document.querySelector('input[placeholder="Full Name"]').value || 'Customer';
+    const email = document.querySelector('input[placeholder="Email Address"]').value || 'customer@example.com';
+    const address = document.querySelector('input[placeholder="Street Address"]').value || 'Address not provided';
+    const city = document.querySelector('input[placeholder="City"]').value || 'City';
+    const state = document.querySelector('input[placeholder="State/Province"]').value || 'State';
+    const postal = document.querySelector('input[placeholder="Postal Code"]').value || 'Postal Code';
+    const country = document.querySelector('input[placeholder="Country"]').value || 'Country';
+    const phone = document.querySelector('input[placeholder="Phone Number"]').value || 'Phone';
+    const payment = document.querySelector('input[name="payment"]:checked').value || 'card';
+
+    // Validate required fields
+    if (!fullName.trim() || !email.trim() || !address.trim()) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+
     const orderData = {
         items: cart,
         customer: {
-            name: formData.get('name') || 'Customer',
-            email: formData.get('email') || 'customer@example.com',
-            address: formData.get('address') || 'Address not provided',
-            city: formData.get('city') || 'City',
-            state: formData.get('state') || 'State',
-            postal: formData.get('postal') || 'Postal Code',
-            country: formData.get('country') || 'Country',
-            phone: formData.get('phone') || 'Phone'
+            name: fullName,
+            email: email,
+            address: address,
+            city: city,
+            state: state,
+            postal: postal,
+            country: country,
+            phone: phone
         },
-        payment: formData.get('payment') || 'card',
+        payment: payment,
         total: cart.reduce((total, item) => total + (item.price * item.quantity), 0) + 500,
         timestamp: new Date().toISOString()
     };
@@ -447,19 +468,3 @@ function showNotification(message, type = 'success') {
         }, 300);
     }, 3000);
 }
-
-// Add slideOut animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideOut {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(400px);
-        }
-    }
-`;
-document.head.appendChild(style);
