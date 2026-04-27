@@ -99,6 +99,86 @@ const books = [
         price: 2100,
         description: 'Guide to web security',
         icon: '🕸️'
+    },
+    {
+        id: 13,
+        title: 'OWASP Testing Guide v4.1',
+        author: 'OWASP Foundation',
+        price: 0,
+        description: 'Free comprehensive web security testing guide',
+        icon: '📋'
+    },
+    {
+        id: 14,
+        title: 'Kali Linux Cookbook',
+        author: 'Offensive Security',
+        price: 0,
+        description: 'Free penetration testing recipes and techniques',
+        icon: '🐧'
+    },
+    {
+        id: 15,
+        title: 'The Basics of Hacking and Penetration Testing',
+        author: 'Patrick Engebretson',
+        price: 0,
+        description: 'Free beginner guide to ethical hacking',
+        icon: '🎯'
+    },
+    {
+        id: 16,
+        title: 'Cybersecurity Fundamentals',
+        author: 'Real World Perspective',
+        price: 0,
+        description: 'Free real-world cybersecurity concepts',
+        icon: '🛡️'
+    },
+    {
+        id: 17,
+        title: 'OWASP Cheat Sheet Series',
+        author: 'OWASP Community',
+        price: 0,
+        description: 'Free security best practices and checklists',
+        icon: '📝'
+    },
+    {
+        id: 18,
+        title: 'Security+ Study Guide (Free)',
+        author: 'CompTIA Community',
+        price: 0,
+        description: 'Free CompTIA Security+ certification prep',
+        icon: '🎓'
+    },
+    {
+        id: 19,
+        title: 'Ethical Hacking Essentials',
+        author: 'Security Community',
+        price: 0,
+        description: 'Free guide to ethical hacking fundamentals',
+        icon: '⚡'
+    },
+    {
+        id: 20,
+        title: 'Network Security Fundamentals',
+        author: 'J.E. Canavan',
+        price: 0,
+        description: 'Free introductory network security concepts',
+        icon: '🔗'
+    },
+    {
+        id: 21,
+        title: 'Cloud Penetration Testing Guide',
+        author: 'Security Experts',
+        price: 0,
+        description: 'Free cloud security testing methodology',
+        icon: '☁️'
+    },
+    {
+        id: 22,
+        title: 'Web Penetration Testing Handbook',
+        author: 'Security Professionals',
+        price: 0,
+        description: 'Free web application security testing guide',
+        icon: '🌍'
     }
 ];
 
@@ -136,7 +216,7 @@ function renderBooks() {
                 <div class="book-title">${book.title}</div>
                 <div class="book-author">by ${book.author}</div>
                 <div class="book-description">${book.description}</div>
-                <div class="book-price">₦${book.price.toLocaleString()}</div>
+                <div class="book-price">${book.price === 0 ? 'FREE' : '₦' + book.price.toLocaleString()}</div>
                 <button class="add-to-cart-btn" onclick="addToCart(${book.id})">
                     Add to Cart
                 </button>
